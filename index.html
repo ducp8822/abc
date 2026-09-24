@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trung Thu Của Đặng Bảo Chi</title>
+    <meta name="description"
+        content="Món quà Trung Thu đặc biệt và ý nghĩa nhất dành tặng Đặng Bảo Chi - Cung Trăng tình yêu huyền ảo ngập tràn ước nguyện.">
+    <meta name="theme-color" content="#05030d">
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css.css">
+</head>
+
+<body>
+
+    <!-- 3D WebGL Canvas Container -->
+    <div id="webgl-container"></div>
+
+    <!-- Opening Romantic Gateway (Màn chào mở quà cho Đặng Bảo Chi) -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-card">
+            <div class="intro-heart-icon">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h2>Gửi Đặng Bảo Chi</h2>
+            <p class="intro-sub">Em yêu của anh</p>
+            <div class="intro-divider">✦ ✦ ✦</div>
+            <p class="intro-msg">
+                Trung Thu này, anh muốn dành riêng cho em thứ đặc biệt. Nơi đây chứa đựng tình yêu, sự ngọt ngào và
+                những điều anh muốn nói với em.
+            </p>
+            <button id="startExperienceBtn" class="intro-start-btn" aria-label="Mở quà Trung Thu">
+                <i class="fas fa-gift"></i>
+                <span>Chạm Để Mở Quà</span>
+                <i class="fas fa-heart"></i>
+            </button>
+            <div class="intro-hint">Bật âm lượng để thưởng thức âm nhạc 🎵</div>
+        </div>
+    </div>
+
+
+
+    <!-- Top Right Action Bar -->
+    <div class="top-bar">
+        <button class="icon-btn love-btn" id="letter-btn" title="Thư gửi Bảo Chi 💌" aria-label="Thư gửi Bảo Chi">
+            <i class="fas fa-envelope-open-text"></i>
+        </button>
+        <button class="icon-btn" id="gallery-btn" title="Album Kỷ Niệm Của Đôi Mình 📸" aria-label="Album ảnh">
+            <i class="fas fa-images"></i>
+        </button>
+        <button class="icon-btn" id="audio-btn" title="Bật / Tắt Nhạc" aria-label="Bật tắt nhạc">
+            <i class="fas fa-music"></i>
+        </button>
+        <button class="icon-btn" id="auto-rotate-btn" title="Tự động xoay cảnh 360°" aria-label="Tự xoay cảnh">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+        <button class="icon-btn" id="firework-btn" title="Bắn pháo hoa trái tim" aria-label="Bắn pháo hoa">
+            <i class="fas fa-burst"></i>
+        </button>
+        <button class="icon-btn" id="reset-cam-btn" title="Góc nhìn ban đầu" aria-label="Góc nhìn ban đầu">
+            <i class="fas fa-compress-arrows-alt"></i>
+        </button>
+    </div>
+
+    <!-- Firefly Mini-Quest Pill (Bắt 5 đom đóm nhận quà bí mật) -->
+    <div class="quest-pill" id="questPill" title="Chạm vào các chú đom đóm bay lượn">
+        <i class="fas fa-firefly fa-bounce" style="--fa-bounce-height: -3px; color: #d4ff80;"></i>
+        <span>Đom đóm phép thuật: <b id="fireflyCountText">0/5</b></span>
+    </div>
+
+    <!-- Bunny Speech Bubble (Bong bóng thoại thỏ ngọc) -->
+    <div class="bunny-bubble" id="bunnyBubble">
+        <span id="bunnyText">Bảo Chi là cô bé đáng yêu nhất vũ trụ! ❤️</span>
+    </div>
+
+    <!-- Bottom Actions & Hints -->
+    <div class="bottom-actions">
+        <button class="main-wish-btn" id="open-make-wish-btn" aria-label="Thả đèn ước nguyện">
+            <i class="fas fa-feather-alt"></i>
+            <span>Thả Đèn</span>
+            <i class="fas fa-heart" style="font-size: 13px; color: #ffccd5;"></i>
+        </button>
+        <div class="click-hint" id="click-hint">
+            🏮 Chạm lồng đèn xem lời chúc • 🐰 Chạm thỏ ngọc trò chuyện • 🌟 Bắt 5 đom đóm nhận quà
+        </div>
+    </div>
+
+    <!-- View Wish Modal -->
+    <div class="wish-modal" id="wishModal" role="dialog" aria-modal="true" aria-labelledby="wishTitle">
+        <div class="wish-card">
+            <button class="modal-close-btn" id="closeWishBtn" aria-label="Đóng lời chúc">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="wishTitle">Thông Điệp Gửi Bảo Chi</h3>
+            <div class="wish-author" id="wishAuthor">✦ Đèn Nguyện Ước Dành Riêng Cho Em ✦</div>
+
+            <div class="wish-image-container">
+                <img id="wishImage" src="./assets/1.jpg" alt="Hình ảnh Trung Thu cho Bảo Chi">
+            </div>
+
+            <p class="wish-quote" id="wishText">"Chúc em một đêm Trung Thu ấm áp, bình an và trọn vẹn bên anh."</p>
+
+            <div class="card-footer">
+                <button class="nav-lantern-btn" id="prevWishBtn" title="Xem đèn trước">
+                    <i class="fas fa-chevron-left"></i> Trước
+                </button>
+                <button class="action-pill-btn" id="copyWishBtn" title="Sao chép lời chúc">
+                    <i class="fas fa-copy"></i> Sao chép
+                </button>
+                <button class="nav-lantern-btn" id="nextWishBtn" title="Xem đèn sau">
+                    Sau <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Romantic Love Letter Modal (Thư tình riêng cho Đặng Bảo Chi) -->
+    <div class="wish-modal" id="loveLetterModal" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+        <div class="wish-card love-letter-card">
+            <button class="modal-close-btn" id="closeLetterBtn" aria-label="Đóng thư">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="wax-seal"><i class="fas fa-heart"></i></div>
+            <h3 id="letterTitle">Thư Gửi Em 💌</h3>
+            <div class="wish-image-container letter-img-box">
+                <img src="./assets/1.jpg" alt="Đặng Bảo Chi đáng yêu">
+            </div>
+
+            <!-- Voice Note Player -->
+            <div class="voice-note-player" id="voiceNoteBox">
+                <button class="voice-play-btn" id="voicePlayBtn" title="Nghe lời nhắn thoại">
+                    <i class="fas fa-play" id="voicePlayIcon"></i>
+                </button>
+                <div class="voice-info">
+                    <span class="voice-title">🎙️ Lời nhắn thoại từ anh gửi Chi</span>
+                    <div class="voice-waves" id="voiceWaves">
+                        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="letter-body-content">
+                <p><strong>Bảo Chi thương mến,</strong></p>
+                <p>Có lẽ đây là trung thu đầu tiên cũng có thể là cuối cùng anh có thể cùng em với tư cách người yêu.
+                    Nhưng bbi ơi anh mong mình có thể hiều nhau hơn, có thể bỏ qua cho nhau nếu có thể ạ. Anh đâu muốn
+                    em tủi thân, cô đơn, buồn và stress chứ?. Anh không có quyền làm em khóc, khóc vì anh hay bất cứ
+                    điều gì khác cả. Điều duy nhất anh muốn là em có thể vui, có thể hạnh phúc, có thể cười đùa mỗi
+                    ngày.</p>
+                <p>Cảm ơn em vì đồng hành cùng anh không quá ngắn cũng chẳng quá dài để mình hiểu nhau hơn nhưng từ đó
+                    anh biết rằng có một người thật sự quan trọng với anh! Chúc cho Bảo Chi - cô bé
+                    đáng yêu nhất trần đời của anh luôn mạnh khỏe, vui vẻ, không bao giờ phải buồn phiền và stress.</p>
+                <p>Anh vẫn sẽ luôn ở đây, nắm chặt tay em và luôn sẵn sàng những lúc em cần anh nhất</p>
+                <p class="letter-signature">Yêu em rất nhiều! ❤️<br><span>✦ Người mà em biết là ai đấy
+                        ✦</span></p>
+            </div>
+
+            <button class="submit-lantern-btn" id="letterReleaseBtn" style="margin-top: 14px;">
+                <i class="fas fa-heart"></i>
+                <span>Thả Đèn</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Photo Gallery Modal (Album Kỷ Niệm Polaroid Của Đôi Mình) -->
+    <div class="wish-modal" id="galleryModal" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+        <div class="wish-card gallery-card">
+            <button class="modal-close-btn" id="closeGalleryBtn" aria-label="Đóng album">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="galleryTitle">Kỷ Niệm Của Đôi Mình 📸</h3>
+            <p class="subtitle" style="margin-bottom: 14px;">Từng khoảnh khắc bên Bảo Chi đều là kỷ niệm vô giá</p>
+
+            <div class="polaroid-grid" id="polaroidGrid">
+                <div class="polaroid-item">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-img">
+                        <img src="./assets/1.jpg" alt="Khoảnh khắc đáng yêu của Bảo Chi">
+                    </div>
+                    <div class="polaroid-caption">Cô bé đáng yêu nhất của anh 💕</div>
+                </div>
+                <div class="polaroid-item">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-img">
+                        <img src="./assets/2.jpg" alt="Những buổi hẹn hò ngọt ngào">
+                    </div>
+                    <div class="polaroid-caption">Nụ cười rạng rỡ của Chi 🍉</div>
+                </div>
+                <div class="polaroid-item">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-img">
+                        <img src="./assets/3.jpg" alt="Mùa trăng bên em">
+                    </div>
+                    <div class="polaroid-caption">Bình yên khi có em kề bên 🧸</div>
+                </div>
+            </div>
+
+            <div class="gallery-footer-note">
+                ✦ Tình yêu chúng mình sẽ viết tiếp thêm thật nhiều trang kỷ niệm rực rỡ nữa nhé! ✦
+            </div>
+        </div>
+    </div>
+
+    <!-- Secret Gift Voucher Modal (Mở khóa khi bắt đủ 5 đom đóm) -->
+    <div class="wish-modal" id="secretGiftModal" role="dialog" aria-modal="true" aria-labelledby="giftTitle">
+        <div class="wish-card voucher-card">
+            <button class="modal-close-btn" id="closeGiftBtn" aria-label="Đóng quà bí mật">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="voucher-stamp">VIỆT NAM • TÌNH YÊU</div>
+            <h3 id="giftTitle">Quà Bí Mật Dành Cho Chi! 🎉</h3>
+            <div class="wish-author">✦ Chúc mừng em đã thắp sáng Cung Trăng ✦</div>
+
+            <div class="voucher-box">
+                <div class="voucher-item">
+                    <div class="voucher-icon">🛵</div>
+                    <div class="voucher-desc">
+                        <h4>Voucher Hẹn Hò Trọn Gói</h4>
+                        <p>Dạo phố ngắm trăng, đi bộ nói chuyện cùng nhau kèm thêm cái ôm thật chặt.</p>
+                    </div>
+                </div>
+                <div class="voucher-item">
+                    <div class="voucher-icon">🤗</div>
+                    <div class="voucher-desc">
+                        <h4>Voucher Làm Hòa Vô Điều Kiện</h4>
+                        <p>Có giá trị giải trừ mọi cơn giận dỗi bằng một cái ôm chim cánh cụtt.</p>
+                    </div>
+                </div>
+                <div class="voucher-item">
+                    <div class="voucher-icon">✨</div>
+                    <div class="voucher-desc">
+                        <h4>Điều Ước Tùy Chọn Của em</h4>
+                        <p>Bất kỳ điều gì em muốn, anh đều sẽ cố gắng hết mình để thực hiện!</p>
+                    </div>
+                </div>
+                <div class="voucher-item">
+                    <div class="voucher-icon">...</div>
+                    <div class="voucher-desc">
+                        <h4>tokboki</h4>
+                        <p>Bất kỳ điều gì em muốn tokboki :):>></p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="submit-lantern-btn" id="claimVoucherBtn" style="margin-top: 14px;">
+                <i class="fas fa-gift"></i>
+                <span>Chi Nhận Hết Tất Cả Quà Nhé! ❤️</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Make a Wish Modal -->
+    <div class="make-wish-modal" id="makeWishModal" role="dialog" aria-modal="true" aria-labelledby="makeWishTitle">
+        <div class="make-wish-card">
+            <button class="modal-close-btn" id="closeMakeWishBtn" aria-label="Đóng tạo ước nguyện">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="makeWishTitle">Thả Đèn Nguyện Ước</h3>
+            <p class="subtitle">Gửi gắm ước mơ của đôi mình bay lên Cung Trăng</p>
+
+            <form id="wishForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label for="senderInput"><i class="fas fa-user-edit"></i> Tên người gửi:</label>
+                    <input type="text" id="senderInput" class="form-input" value="Người Yêu Của Bảo Chi" maxlength="30">
+                </div>
+
+                <div class="form-group">
+                    <label for="customWishInput"><i class="fas fa-heart"></i> Lời chúc gửi Bảo Chi:</label>
+                    <textarea id="customWishInput" class="form-textarea"
+                        placeholder="Nhập lời chúc ngọt ngào gửi đến Bảo Chi..." maxlength="250"
+                        required>Chúc Đặng Bảo Chi luôn vui vẻ, đáng yêu và mãi mãi hạnh phúc bên anh! ❤️</textarea>
+
+                    <!-- Quick preset pills -->
+                    <div class="preset-container">
+                        <button type="button" class="preset-btn" data-preset="yeuthuong">💖 Mãi Yêu Chi</button>
+                        <button type="button" class="preset-btn" data-preset="binhan">🌸 An Yên</button>
+                        <button type="button" class="preset-btn" data-preset="mayman">🌟 May Mắn</button>
+                        <button type="button" class="preset-btn" data-preset="doanvien">🏮 Hẹn Ước</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-magic"></i> Kiểu lồng đèn:</label>
+                    <div class="lantern-styles">
+                        <div class="lantern-choice active" data-style="heart">
+                            <span class="icon-sample">💖</span>
+                            <span>Tình Yêu</span>
+                        </div>
+                        <div class="lantern-choice" data-style="star">
+                            <span class="icon-sample">⭐</span>
+                            <span>Đèn Ông Sao</span>
+                        </div>
+                        <div class="lantern-choice" data-style="lotus">
+                            <span class="icon-sample">🌸</span>
+                            <span>Hoa Sen</span>
+                        </div>
+                        <div class="lantern-choice" data-style="gold">
+                            <span class="icon-sample">🏮</span>
+                            <span>Thiên Đăng</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" id="submitWishBtn" class="submit-lantern-btn">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Thắp Sáng & Thả Đèn Lên Cung Trăng</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notice -->
+    <div class="toast-notice" id="toastNotice">
+        <i class="fas fa-heart"></i>
+        <span id="toastMsg">Chào mừng Đặng Bảo Chi đến với Cung Trăng Tình Yêu!</span>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bgm" loop preload="auto" src="./assets/1.mp3"></audio>
+
+    <!-- Three.js & OrbitControls & Main Script -->
+    <script src="./assets/three.min.js"></script>
+    <script src="./assets/OrbitControls.js"></script>
+    <script src="./assets/script.js"></script>
+</body>
+
+</html>

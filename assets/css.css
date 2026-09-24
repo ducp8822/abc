@@ -1,0 +1,1300 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+:root {
+  --gold-glow: #ffd700;
+  --gold-bright: #fff275;
+  --gold-dark: #d4a017;
+  --crimson: #ff3366;
+  --soft-pink: #f8b4d9;
+  --glass-bg: rgba(22, 12, 34, 0.85);
+  --glass-border: rgba(255, 215, 0, 0.35);
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 0 0 25px rgba(255, 180, 50, 0.2);
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #05030d;
+  font-family: "Quicksand", sans-serif;
+  touch-action: none;
+  color: #fff;
+}
+
+#webgl-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* TOP BAR */
+.top-bar {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(30, 16, 45, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  color: var(--gold-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px) scale(1.08);
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.5);
+  color: #fff;
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+.icon-btn.active {
+  background: linear-gradient(135deg, rgba(255, 180, 0, 0.35), rgba(255, 77, 109, 0.35));
+  border-color: var(--gold-bright);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+/* Music Equalizer waves */
+.icon-btn.playing i {
+  animation: pulseRotate 2.5s infinite linear;
+}
+
+@keyframes pulseRotate {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.18);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* TOP LEFT TITLE BADGE */
+.festival-badge {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(22, 12, 34, 0.68);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  padding: 8px 16px;
+  border-radius: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.festival-badge:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.festival-badge .badge-icon {
+  font-size: 20px;
+  color: var(--gold-glow);
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
+  animation: floatMoon 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatMoon {
+  0% {
+    transform: translateY(-1px) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(2px) rotate(5deg);
+  }
+}
+
+.festival-badge .badge-text h1 {
+  font-family: "Dancing Script", cursive;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold-glow);
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  line-height: 1.1;
+}
+
+.festival-badge .badge-text p {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* BOTTOM ACTION BAR */
+.bottom-actions {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 90%;
+  max-width: 480px;
+  pointer-events: none;
+}
+
+.main-wish-btn {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 26px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #d44161, #8f2b7a 50%, #f39c12);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(212, 65, 97, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.main-wish-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 35px rgba(243, 156, 18, 0.7), inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.main-wish-btn:active {
+  transform: scale(0.95);
+}
+
+.main-wish-btn i {
+  color: var(--gold-bright);
+  font-size: 17px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+}
+
+.click-hint {
+  color: rgba(255, 240, 220, 0.85);
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  animation: pulseHint 2.4s infinite alternate ease-in-out;
+  text-align: center;
+  background: rgba(10, 5, 20, 0.45);
+  backdrop-filter: blur(6px);
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+@keyframes pulseHint {
+  0% {
+    opacity: 0.45;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* WISH MODAL */
+.wish-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 1, 8, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: 16px;
+}
+
+.wish-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.wish-card {
+  background: linear-gradient(145deg,
+      rgba(36, 14, 52, 0.95),
+      rgba(14, 6, 26, 0.98));
+  border: 1.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 24px;
+  padding: 26px 22px 22px 22px;
+  max-width: 430px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  transform: translateY(35px) scale(0.92);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  color: #fff;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.wish-card::-webkit-scrollbar {
+  width: 5px;
+}
+
+.wish-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.3);
+  border-radius: 10px;
+}
+
+.wish-modal.active .wish-card {
+  transform: translateY(0) scale(1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--gold-glow);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  background: var(--crimson);
+  color: #fff;
+  border-color: var(--crimson);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.wish-card h3 {
+  font-family: "Dancing Script", cursive;
+  font-size: 32px;
+  color: var(--gold-glow);
+  margin-bottom: 4px;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+.wish-author {
+  font-size: 13px;
+  color: var(--soft-pink);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.wish-image-container {
+  width: 100%;
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 10px 0 16px 0;
+  border: 1.5px solid rgba(255, 215, 0, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  background: #0d0614;
+  position: relative;
+}
+
+.wish-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #fff;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.wish-card:hover .wish-image-container img {
+  transform: scale(1.03);
+}
+
+.wish-card p.wish-quote {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #f7edff;
+  font-style: italic;
+  margin-bottom: 16px;
+  padding: 0 8px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.wish-card .card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 215, 0, 0.25);
+}
+
+.nav-lantern-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--gold-glow);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.nav-lantern-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  color: #fff;
+  border-color: var(--gold-bright);
+}
+
+.action-pill-btn {
+  background: linear-gradient(135deg, rgba(255, 180, 0, 0.25), rgba(255, 51, 102, 0.25));
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.action-pill-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 180, 0, 0.4), rgba(255, 51, 102, 0.4));
+  border-color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+/* MAKE A WISH MODAL */
+.make-wish-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 1, 8, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: 16px;
+}
+
+.make-wish-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.make-wish-card {
+  background: linear-gradient(145deg,
+      rgba(34, 15, 48, 0.96),
+      rgba(14, 6, 26, 0.98));
+  border: 1.5px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 24px;
+  padding: 26px 24px;
+  max-width: 440px;
+  width: 100%;
+  position: relative;
+  transform: translateY(35px) scale(0.92);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  color: #fff;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.make-wish-modal.active .make-wish-card {
+  transform: translateY(0) scale(1);
+}
+
+.make-wish-card h3 {
+  font-family: "Dancing Script", cursive;
+  font-size: 30px;
+  color: var(--gold-glow);
+  text-align: center;
+  margin-bottom: 4px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.make-wish-card p.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255, 240, 220, 0.7);
+  margin-bottom: 18px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--soft-pink);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 12px;
+  color: #fff;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--gold-bright);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.preset-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.preset-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 5px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+  background: rgba(255, 215, 0, 0.25);
+  color: #fff;
+  border-color: var(--gold-glow);
+}
+
+/* Lantern style selector */
+.lantern-styles {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.lantern-choice {
+  flex: 1;
+  padding: 8px 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+}
+
+.lantern-choice:hover {
+  border-color: var(--gold-glow);
+  background: rgba(255, 215, 0, 0.15);
+}
+
+.lantern-choice.active {
+  border-color: var(--gold-bright);
+  background: linear-gradient(135deg, rgba(255, 180, 0, 0.3), rgba(255, 51, 102, 0.3));
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+.lantern-choice .icon-sample {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.submit-lantern-btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #e63946, #f39c12);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
+  transition: all 0.3s ease;
+}
+
+.submit-lantern-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(243, 156, 18, 0.7);
+}
+
+.submit-lantern-btn:active {
+  transform: scale(0.97);
+}
+
+/* TOAST NOTIFICATION */
+.toast-notice {
+  position: fixed;
+  top: 75px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(24, 12, 38, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid var(--gold-glow);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  z-index: 200;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  max-width: 90%;
+}
+
+.toast-notice.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-notice i {
+  color: var(--gold-bright);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .top-bar {
+    top: 12px;
+    right: 12px;
+    gap: 8px;
+  }
+
+  .festival-badge {
+    padding: 6px 12px;
+  }
+
+  .festival-badge .badge-text h1 {
+    font-size: 17px;
+  }
+
+  .festival-badge .badge-text p {
+    font-size: 9.5px;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  .main-wish-btn {
+    font-size: 13.5px;
+    padding: 10px 20px;
+  }
+
+  .wish-card {
+    padding: 22px 16px 18px 16px;
+  }
+
+  .wish-card h3 {
+    font-size: 26px;
+  }
+
+  .wish-image-container {
+    height: 160px;
+  }
+
+  .wish-card p.wish-quote {
+    font-size: 14.5px;
+  }
+}
+
+/* ROMANTIC STYLING FOR ĐẶNG BẢO CHI */
+.love-pulse {
+  color: #ff3366 !important;
+  animation: heartBeat 1.4s infinite ease-in-out alternate !important;
+  filter: drop-shadow(0 0 8px rgba(255, 51, 102, 0.8)) !important;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.22);
+  }
+
+  60% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1.28);
+  }
+}
+
+.love-btn {
+  border-color: rgba(255, 77, 109, 0.6) !important;
+  color: #ff4d6d !important;
+  box-shadow: 0 0 16px rgba(255, 77, 109, 0.4) !important;
+}
+
+.love-btn:hover {
+  background: rgba(255, 77, 109, 0.3) !important;
+  color: #fff !important;
+  transform: scale(1.1) !important;
+}
+
+/* INTRO GATEWAY OVERLAY */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(35, 12, 45, 0.88), rgba(6, 2, 14, 0.96));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.intro-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-card {
+  max-width: 460px;
+  width: 100%;
+  background: linear-gradient(145deg, rgba(46, 16, 56, 0.95), rgba(18, 6, 28, 0.98));
+  border: 1.8px solid rgba(255, 180, 200, 0.45);
+  box-shadow: 0 0 45px rgba(255, 51, 102, 0.35), inset 0 0 25px rgba(255, 215, 0, 0.18);
+  border-radius: 28px;
+  padding: 36px 26px 30px 26px;
+  text-align: center;
+  position: relative;
+  animation: introPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+}
+
+@keyframes introPop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.intro-heart-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 51, 102, 0.35), rgba(255, 180, 0, 0.25));
+  border: 1.5px solid rgba(255, 77, 109, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: #ff3366;
+  box-shadow: 0 0 25px rgba(255, 51, 102, 0.5);
+  animation: heartBeat 1.3s infinite ease-in-out alternate;
+}
+
+.intro-card h2 {
+  font-family: "Dancing Script", cursive;
+  font-size: 38px;
+  font-weight: 700;
+  color: #ffd700;
+  text-shadow: 0 0 16px rgba(255, 215, 0, 0.7);
+  margin-bottom: 4px;
+}
+
+.intro-sub {
+  font-size: 14px;
+  color: #fca3cc;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.intro-divider {
+  color: rgba(255, 215, 0, 0.6);
+  font-size: 13px;
+  letter-spacing: 6px;
+  margin-bottom: 14px;
+}
+
+.intro-msg {
+  font-size: 15px;
+  line-height: 1.68;
+  color: #f7edff;
+  font-style: italic;
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+.intro-start-btn {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ff3366, #e63946 50%, #f39c12);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 30px rgba(255, 51, 102, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.intro-start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 38px rgba(243, 156, 18, 0.8), inset 0 0 22px rgba(255, 255, 255, 0.5);
+}
+
+.intro-start-btn:active {
+  transform: scale(0.96);
+}
+
+.intro-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 14px;
+}
+
+/* LOVE LETTER MODAL */
+.love-letter-card {
+  max-width: 450px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: linear-gradient(145deg, rgba(38, 14, 46, 0.98), rgba(18, 6, 24, 0.99)) !important;
+  border: 1.8px solid rgba(255, 77, 109, 0.5) !important;
+  box-shadow: 0 0 45px rgba(255, 51, 102, 0.4) !important;
+}
+
+.letter-img-box {
+  height: 150px !important;
+}
+
+.wax-seal {
+  width: 44px;
+  height: 44px;
+  margin: -10px auto 8px auto;
+  border-radius: 50%;
+  background: #c9184a;
+  border: 2px solid #ffccd5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 4px 15px rgba(201, 24, 74, 0.6);
+}
+
+.letter-body-content {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 180, 200, 0.35);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #fae0e8;
+}
+
+.letter-body-content p {
+  margin-bottom: 10px;
+}
+
+.letter-signature {
+  text-align: right;
+  font-family: "Dancing Script", cursive;
+  font-size: 20px;
+  color: #ffd700;
+  margin-top: 12px;
+}
+
+.letter-signature span {
+  font-size: 13px;
+  font-family: "Quicksand", sans-serif;
+  color: #ff9ebb;
+  display: block;
+}
+
+/* HEADER LEFT GROUP & LOVE COUNTER */
+.header-left-group {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.love-counter-badge {
+  background: rgba(28, 12, 38, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 77, 109, 0.4);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  color: #ffccd5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  align-self: flex-start;
+}
+
+.love-counter-badge:hover {
+  border-color: #ff4d6d;
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(255, 77, 109, 0.5);
+}
+
+.love-counter-badge i {
+  color: #ff3366;
+}
+
+/* QUEST PILL */
+.quest-pill {
+  position: absolute;
+  top: 76px;
+  right: 18px;
+  z-index: 10;
+  background: rgba(20, 10, 30, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(212, 255, 128, 0.45);
+  box-shadow: 0 0 18px rgba(212, 255, 128, 0.25);
+  padding: 6px 14px;
+  border-radius: 24px;
+  font-size: 12px;
+  color: #f0ffe0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quest-pill:hover {
+  border-color: #d4ff80;
+  transform: scale(1.04);
+  box-shadow: 0 0 24px rgba(212, 255, 128, 0.45);
+}
+
+/* BUNNY SPEECH BUBBLE */
+.bunny-bubble {
+  position: absolute;
+  z-index: 25;
+  background: rgba(255, 255, 255, 0.95);
+  color: #3d1428;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 77, 109, 0.4);
+  transform: translate(-50%, -100%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25), opacity 0.3s ease;
+  max-width: 220px;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.bunny-bubble.show {
+  transform: translate(-50%, -125%) scale(1);
+  opacity: 1;
+}
+
+.bunny-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.95) transparent transparent;
+}
+
+/* VOICE NOTE PLAYER */
+.voice-note-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 51, 102, 0.15);
+  border: 1px solid rgba(255, 77, 109, 0.4);
+  padding: 10px 14px;
+  border-radius: 14px;
+  margin: 12px 0;
+}
+
+.voice-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ff3366;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(255, 51, 102, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.voice-play-btn:hover {
+  transform: scale(1.1);
+}
+
+.voice-info {
+  flex: 1;
+  text-align: left;
+}
+
+.voice-title {
+  font-size: 12.5px;
+  color: #ffd700;
+  display: block;
+}
+
+.voice-waves {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 16px;
+  margin-top: 4px;
+}
+
+.voice-waves span {
+  width: 3px;
+  height: 6px;
+  background: #ff758f;
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.voice-waves.playing span {
+  animation: waveBounce 0.8s infinite ease-in-out alternate;
+}
+
+.voice-waves span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.voice-waves span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.voice-waves span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.voice-waves span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.voice-waves span:nth-child(6) {
+  animation-delay: 0.25s;
+}
+
+.voice-waves span:nth-child(7) {
+  animation-delay: 0.15s;
+}
+
+@keyframes waveBounce {
+  0% {
+    height: 4px;
+  }
+
+  100% {
+    height: 16px;
+  }
+}
+
+/* POLAROID PHOTO GALLERY */
+.gallery-card {
+  max-width: 520px !important;
+}
+
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.polaroid-item {
+  background: #fff;
+  padding: 8px 8px 14px 8px;
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.polaroid-item:nth-child(1) {
+  transform: rotate(-2.5deg);
+}
+
+.polaroid-item:nth-child(2) {
+  transform: rotate(2deg);
+}
+
+.polaroid-item:nth-child(3) {
+  transform: rotate(-1.5deg);
+}
+
+.polaroid-item:hover {
+  transform: rotate(0) scale(1.06);
+  z-index: 5;
+  box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+}
+
+.polaroid-tape {
+  width: 32px;
+  height: 12px;
+  background: rgba(255, 235, 150, 0.7);
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.polaroid-img {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background: #f0e6ff;
+  border-radius: 2px;
+}
+
+.polaroid-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.polaroid-caption {
+  font-family: "Dancing Script", cursive;
+  color: #2b1425;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.gallery-footer-note {
+  font-size: 13px;
+  color: #ffccd5;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/* VOUCHER CARD */
+.voucher-card {
+  max-width: 460px !important;
+  border-color: #ffd700 !important;
+}
+
+.voucher-stamp {
+  display: inline-block;
+  border: 1.5px dashed #ffd700;
+  color: #ffd700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.voucher-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0;
+  text-align: left;
+}
+
+.voucher-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px dashed rgba(255, 215, 0, 0.4);
+  padding: 10px 14px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.voucher-item:hover {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #ffd700;
+  transform: translateX(4px);
+}
+
+.voucher-icon {
+  font-size: 24px;
+}
+
+.voucher-desc h4 {
+  font-size: 14px;
+  color: #ffd700;
+  margin-bottom: 2px;
+}
+
+.voucher-desc p {
+  font-size: 12px;
+  color: #f7edff;
+}
+
+@media (max-width: 600px) {
+  .header-left-group {
+    top: 12px;
+    left: 12px;
+  }
+
+  .quest-pill {
+    top: 60px;
+    right: 12px;
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}
